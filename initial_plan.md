@@ -409,13 +409,13 @@ The labeling protocol should be conservative and explicit. Full detail in `docs/
 
 Some photos are inherently work-stage dependent. For example, water visible during a flooding test before waterproofing may be expected rather than defective.
 
-For those cases, choose one of these policies **before dataset building**:
+**Decision (locked):** **Exclude** — see [docs/labeling_protocol.md](docs/labeling_protocol.md).
 
 | Policy | When to use | Effect on training |
 |--------|-------------|-------------------|
-| **Exclude** | Acceptability cannot be inferred from pixels alone | Image omitted from supervised set; `filter_reason: stage_dependent` |
-| **Uncertain** | Ambiguous but worth keeping for review | Label `uncertain_requires_human_review`; excluded from classifier training until reviewed |
-| **Stratify** | Defect cues are stable within a work type | Train separate models or balanced subsets per `work_type` |
+| **Exclude** ✓ | Acceptability cannot be inferred from pixels alone | Image omitted from supervised set; `filter_reason: stage_dependent` |
+| Uncertain | Ambiguous but worth keeping for review | Not used for stage-dependent cases under current policy |
+| Stratify | Defect cues are stable within a work type | Deferred until enough data per `work_type` |
 
 Record the chosen policy per image in `TrainingLabel.stage_policy`.
 
@@ -513,7 +513,7 @@ Build a held-out test set of historical inspection photos. Split at the **inspec
 
 ### Phase 1 — Data pipeline MVP
 
-- Lock stage-dependent image policy in `docs/labeling_protocol.md`.
+- ~~Lock stage-dependent image policy~~ — **done:** Exclude ([docs/labeling_protocol.md](docs/labeling_protocol.md)).
 - Define data schemas.
 - Parse historical RFI PDFs.
 - Extract photos.
